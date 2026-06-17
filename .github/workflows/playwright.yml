@@ -20,7 +20,7 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       env:
-        GRI_USERNAME: ${{ secrets.GRI_USERNAME }}
+        GRI_USERNAME: ${{ secrets.GRI_USERNAME }} 
         GRI_PASSWORD: ${{ secrets.GRI_PASSWORD }}
       run: npx playwright test login.spec.ts --project=firefox
       #run: npx playwright test
