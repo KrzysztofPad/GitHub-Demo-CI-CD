@@ -19,7 +19,7 @@ export default defineConfig({
   // Opt out of parallel workers on CI.
   workers: process.env.CI ? 1 : undefined,
   // HTML report — open with `npm run report`.
-  reporter: 'html',
+  reporter: [['html'],['github']]
 
   use: {
     // Collect a trace when retrying a failed test (view with the trace viewer).
