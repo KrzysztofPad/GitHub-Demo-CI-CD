@@ -1,8 +1,8 @@
 import { type Page, expect } from '@playwright/test';
-/** will check if addind those to yml file will fix it
+
 export const USERNAME = process.env.GRI_USERNAME;
 export const PASSWORD = process.env.GRI_PASSWORD;
-*/
+
 
 /** True when credentials are available; specs use this to skip otherwise. */
 export const hasCredentials = Boolean(USERNAME && PASSWORD);
