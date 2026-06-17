@@ -1,0 +1,24 @@
+{
+  "name": "browser-auto-ai",
+  "version": "1.0.0",
+  "description": "Browser automation with Playwright (testing, screenshots, codegen)",
+  "main": "index.js",
+  "scripts": {
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen",
+    "screenshot": "node scripts/screenshot.ts",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  }
+}
