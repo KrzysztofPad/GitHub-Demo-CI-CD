@@ -17,10 +17,8 @@ export const hasCredentials = Boolean(USERNAME && PASSWORD);
 export async function login(page: Page): Promise<void> {
   // 1. Landing page → Login, which redirects to Microsoft Entra.
   await page.goto('https://dev.gritracking.com/');
-  console.log("After login click:", page.url());
   await page.getByRole('button', { name: 'Login' }).first().click();
   await page.waitForURL(/ciamlogin\.com/, { timeout: 20_000 });
-  console.log("After login click:", page.url());
 
   // 2. Email step.
   const email = page.locator('input[name="username"]');
@@ -34,7 +32,6 @@ export async function login(page: Page): Promise<void> {
   await password.waitFor({ state: 'visible', timeout: 20_000 });
   await password.fill(PASSWORD!);
   await page.getByRole('button', { name: /^(Sign in|Log in)$/ }).click();
-  console.log("After login click:", page.url());
 
   // 4. "Stay signed in?" → Yes (or Microsoft redirects straight through).
   const stayPrompt = page.getByRole('heading', { name: 'Stay signed in?' });
@@ -44,7 +41,14 @@ export async function login(page: Page): Promise<void> {
       .then(() => page.getByRole('button', { name: 'Yes' }).click()),
     page.waitForURL(/dev\.gritracking\.com\/dashboard/, { timeout: 30_000 }),
   ]).catch(() => {});
-  console.log("After login click:", page.url());
+//Debugging for firefox login issue
+  console.log("Final URL:", page.url());
+
+    await page.screenshot({
+      path: `debug-final-${Date.now()}.png`,
+      fullPage: true
+}   );
+//Debugging for firefox login issue - end
 
   // 5. Land on the dashboard. It's a real-time app (open websockets), so wait
   //    for a concrete nav element rather than 'networkidle', which never settles.
