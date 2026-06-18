@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 import { hasCredentials, login } from './helpers/auth';
-import { createOneLegTruckPlan, pickTwoDistinct, randomTripId } from './helpers/plan';
+import { createOneLegTruckPlan, pickTwoDistinct } from './helpers/plan';
 
 /**
  * Creates a one-leg truck shipment plan between two random US cities, departing
@@ -23,7 +23,7 @@ test('creates a one-leg truck plan between two random US cities departing yester
   test.setTimeout(180_000);
 
   const [origin, destination] = pickTwoDistinct(US_CITIES);
-  const tripId = randomTripId();
+  const tripId = 'QA-AUTO One Leg Test';
   console.log(`Creating plan "${tripId}": ${origin} → ${destination}`);
 
   await login(page);
