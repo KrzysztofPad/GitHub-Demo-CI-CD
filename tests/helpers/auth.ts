@@ -54,7 +54,18 @@ export async function login(page: Page): Promise<void> {
   // 5. Land on the dashboard. It's a real-time app (open websockets), so wait
   //    for a concrete nav element rather than 'networkidle', which never settles.
   await page.waitForURL(/dev\.gritracking\.com\/dashboard/, { timeout: 60_000 });
-  console.log("After login click:", page.url());
+
+  console.log(await page.title());
+console.log(await page.url());
+
+const html = await page.content();
+console.log(html.substring(0, 3000));
+
   await expect(page.getByText('Live Ops').first()).toBeVisible({ timeout: 30_000 });
-  console.log("After login click:", page.url());
+  
+console.log(await page.title());
+console.log(await page.url());
+
+console.log(html.substring(0, 3000));
+
 }
