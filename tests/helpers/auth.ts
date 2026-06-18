@@ -42,30 +42,15 @@ export async function login(page: Page): Promise<void> {
       .then(() => page.getByRole('button', { name: 'Yes' }).click()),
     page.waitForURL(/dev\.gritracking\.com\/dashboard/, { timeout: 30_000 }),
   ]).catch(() => {});
-//Debugging for firefox login issue
-  console.log("Final URL:", page.url());
 
     await page.screenshot({
       path: `debug-final-${Date.now()}.png`,
       fullPage: true
 }   );
-//Debugging for firefox login issue - end
 
   // 5. Land on the dashboard. It's a real-time app (open websockets), so wait
   //    for a concrete nav element rather than 'networkidle', which never settles.
   await page.waitForURL(/dev\.gritracking\.com\/dashboard/, { timeout: 60_000 });
-
-  console.log(await page.title());
-console.log(await page.url());
-
-const html = await page.content();
-console.log(html.substring(0, 3000));
-
   await expect(page.getByText('Live Ops').first()).toBeVisible({ timeout: 30_000 });
-  
-console.log(await page.title());
-console.log(await page.url());
-
-console.log(html.substring(0, 3000));
 
 }

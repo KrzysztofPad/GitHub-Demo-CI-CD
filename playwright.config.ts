@@ -37,19 +37,6 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'firefox',
-      //use: { ...devices['Desktop Firefox'] },
-      use: {
-        browserName: 'firefox',
-        launchOptions: {
-          firefoxUserPrefs: {
-            "webgl.disabled": false,
-            "webgl.force-enabled": true,
-          },
-        },
-     },
-    },
-    {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },

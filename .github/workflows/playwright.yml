@@ -22,8 +22,7 @@ jobs:
       env:
         GRI_USERNAME: ${{ secrets.GRI_USERNAME }} 
         GRI_PASSWORD: ${{ secrets.GRI_PASSWORD }}
-      run: npx playwright test login.spec.ts --project=firefox
-      #run: npx playwright test
+      run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
