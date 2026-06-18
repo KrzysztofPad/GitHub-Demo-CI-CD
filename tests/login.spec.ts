@@ -21,6 +21,7 @@ page.on('pageerror', error => {
 });
 
   await login(page);
+  await page.waitForTimeout(10000);
   await expect(page).toHaveURL(/dev\.gritracking\.com\/dashboard/);
 
   page.on('console', msg => {
