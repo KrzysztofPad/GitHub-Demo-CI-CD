@@ -40,13 +40,16 @@ export default defineConfig({
       name: 'firefox',
       //use: { ...devices['Desktop Firefox'] },
       use: {
-      browserName: 'firefox',
-      launchOptions: {
+        browserName: 'firefox',
+        launchOptions: {
+          env: {
+            LIBGL_ALWAYS_SOFTWARE: '1',
+          },
         firefoxUserPrefs: {
           'webgl.force-enabled': true,
         },
       },
-    },
+  },
     },
     {
       name: 'webkit',
