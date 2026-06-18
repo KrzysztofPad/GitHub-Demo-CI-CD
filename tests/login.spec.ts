@@ -12,9 +12,24 @@ test('logs in and lands on the dashboard', async ({ page }) => {
   // three browser projects run in parallel against the same account.
   test.setTimeout(120_000);
 
+page.on('console', msg => {
+  console.log(`[BROWSER ${msg.type()}] ${msg.text()}`);
+});
+
+page.on('pageerror', error => {
+  console.log(`[PAGE ERROR] ${error.message}`);
+});
+
   await login(page);
   await expect(page).toHaveURL(/dev\.gritracking\.com\/dashboard/);
 
+  page.on('console', msg => {
+  console.log(`[BROWSER ${msg.type()}] ${msg.text()}`);
+});
+
+page.on('pageerror', error => {
+  console.log(`[PAGE ERROR] ${error.message}`);
+});
   // One screenshot per browser so the parallel projects don't clobber each
   // other, and attach it to the HTML report.
   const path = `out/dashboard-${test.info().project.name}.png`;
