@@ -30,6 +30,14 @@ page.on('pageerror', error => {
 page.on('pageerror', error => {
   console.log(`[PAGE ERROR] ${error.message}`);
 });
+
+page.on('response', async response => {
+  if (response.status() >= 400) {
+    console.log(
+      `HTTP ${response.status()} ${response.url()}`
+    );
+  }
+});
   // One screenshot per browser so the parallel projects don't clobber each
   // other, and attach it to the HTML report.
   const path = `out/dashboard-${test.info().project.name}.png`;
