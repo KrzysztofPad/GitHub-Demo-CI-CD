@@ -8,6 +8,16 @@ export function yesterdayAt9am(): string {
   return `${mm}/${dd}/${d.getFullYear()} 09:00 AM`;
 }
 
+/** Date N days after yesterday at 09:00, formatted as MM/DD/YYYY hh:mm aa */
+export function plusDaysAfterYesterdayAt9am(days: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1 + days);
+  d.setHours(9, 0, 0, 0);
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${mm}/${dd}/${d.getFullYear()} 09:00 AM`;
+}
+
 /** A unique Trip ID so repeated runs never collide. */
 export function randomTripId(prefix = 'QA-AUTO'): string {
   const suffix = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;

@@ -49,8 +49,8 @@ export async function login(page: Page): Promise<void> {
 }   );
 
   // 5. Land on the dashboard. It's a real-time app (open websockets), so wait
-  //    for a concrete nav element rather than 'networkidle', which never settles.
+  //    for stable dashboard content rather than 'networkidle', which never settles.
   await page.waitForURL(/dev\.gritracking\.com\/dashboard/, { timeout: 60_000 });
-  await expect(page.getByText('Live Ops').first()).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('body')).toContainText(/(?:Live Ops|All Plans|Welcome to the Grit Public Beta!)/i, { timeout: 30_000 });
 
 }

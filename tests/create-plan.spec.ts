@@ -1,33 +1,31 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { hasCredentials, login } from './helpers/auth';
-import { createOneLegTruckPlan, pickTwoDistinct } from './helpers/plan';
+import { createOneLegTruckPlan, yesterdayAt9am, plusDaysAfterYesterdayAt9am } from './helpers/plan';
 
-/**
- * Creates a one-leg truck shipment plan between two random US cities, departing
- * yesterday, then asserts the plan was saved. See tests/helpers/plan.ts for the
- * wizard steps and the app quirks handled along the way.
- */
-
-/** US cities verified to resolve to an exact "City, ST" autocomplete option. */
-const US_CITIES = [
-  'Los Angeles, CA', 'New York, NY', 'Chicago, IL', 'Houston, TX',
-  'Phoenix, AZ', 'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA',
-  'Dallas, TX', 'Seattle, WA', 'Denver, CO', 'Boston, MA',
-  'Atlanta, GA', 'Miami, FL', 'Portland, OR', 'Las Vegas, NV',
-  'Nashville, TN', 'Minneapolis, MN', 'Kansas City, MO', 'Salt Lake City, UT',
-];
-
-test('creates a one-leg truck plan between two random US cities departing yesterday', async ({ page }) => {
+test('creates a one-leg truck plan: Houston TX to Kansas City MO with verified details', async ({ page }) => {
   test.skip(!hasCredentials, 'Set GRI_USERNAME and GRI_PASSWORD in .env');
   // Login + the multi-step plan wizard is slow, more so under parallel projects.
   test.setTimeout(180_000);
 
-  const [origin, destination] = pickTwoDistinct(US_CITIES);
+  const origin = 'Houston, TX';
+  const destination = 'Kansas City, MO';
   const tripId = 'QA-AUTO One Leg Test';
+  const departureDate = yesterdayAt9am();
+  const arrivalDate = plusDaysAfterYesterdayAt9am(1);
+
   console.log(`Creating plan "${tripId}": ${origin} → ${destination}`);
+  console.log(`Departure: ${departureDate}, Arrival: ${arrivalDate}`);
 
   await login(page);
   await createOneLegTruckPlan(page, { tripId, origin, destination });
+
+  // Verify saved plan details
+  await expect(page.locator('body')).toContainText('Houston');
+  await expect(page.locator('body')).toContainText('Kansas City');
+  await expect(page.locator('body')).toContainText(departureDate.split(' ')[0]); // date part: MM/DD/YYYY
+  await expect(page.locator('body')).toContainText(arrivalDate.split(' ')[0]); // arrival date
+  await expect(page.locator('body')).toContainText('1 day 6 hours'); // travel time
+  await expect(page.locator('body')).toContainText(/1 day 6 hours\s*\/\s*791 miles/); // distance
 
   const path = `out/created-plan-${test.info().project.name}.png`;
   await page.screenshot({ path, fullPage: true });
