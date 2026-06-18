@@ -42,14 +42,12 @@ export default defineConfig({
       use: {
         browserName: 'firefox',
         launchOptions: {
-          env: {
-            LIBGL_ALWAYS_SOFTWARE: '1',
+          firefoxUserPrefs: {
+            "webgl.disabled": false,
+            "webgl.force-enabled": true,
           },
-        firefoxUserPrefs: {
-          'webgl.force-enabled': true,
         },
-      },
-  },
+     },
     },
     {
       name: 'webkit',
