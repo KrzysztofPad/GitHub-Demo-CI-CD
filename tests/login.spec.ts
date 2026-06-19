@@ -9,7 +9,7 @@ import { hasCredentials, login } from './helpers/auth';
 test('logs in and lands on the dashboard', async ({ page }) => {
   test.skip(!hasCredentials, 'Set GRI_USERNAME and GRI_PASSWORD in .env');
   // The Entra OAuth flow has many redirects and is slow, especially when all
-  // three browser projects run in parallel against the same account.
+  // three browser projects run in parallel against the same account. 
   test.setTimeout(120_000);
 
 
